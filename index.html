@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpareBank 1 – Data Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Simulert SpareBank 1 API</p>
+        <h1>Kontodashboard</h1>
+        <p class="lede">Henter kontoer og saldo via mock-data så du kan teste uten backend.</p>
+      </div>
+      <div class="header-actions">
+        <button id="refresh-button" class="primary-button">Oppdater data</button>
+        <p id="last-updated" class="meta-text">Sist oppdatert: –</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-panel">
+        <div>
+          <p class="label">Totalt tilgjengelig</p>
+          <p id="total-balance" class="summary-value">–</p>
+        </div>
+        <div>
+          <p class="label">Antall kontoer</p>
+          <p id="account-count" class="summary-value">–</p>
+        </div>
+        <div>
+          <p class="label">Status</p>
+          <p id="api-status" class="status-pill status-idle">Avventer</p>
+        </div>
+      </section>
+
+      <section class="cards-panel">
+        <div class="panel-header">
+          <h2>Kontoer</h2>
+          <p class="meta-text">Listen er hentet fra mock API. Bytt ut koden med ekte kall når du har autentisering.</p>
+        </div>
+        <div id="accounts-grid" class="accounts-grid">
+          <!-- Konto-kort rendres her -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
