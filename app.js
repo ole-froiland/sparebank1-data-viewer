@@ -4,9 +4,17 @@ const accountCountEl = document.getElementById("account-count");
 const apiStatusEl = document.getElementById("api-status");
 const lastUpdatedEl = document.getElementById("last-updated");
 const refreshButton = document.getElementById("refresh-button");
+const navButtons = document.querySelectorAll(".nav-link");
+const views = document.querySelectorAll(".view");
 
 refreshButton.addEventListener("click", loadDashboard);
 window.addEventListener("DOMContentLoaded", loadDashboard);
+navButtons.forEach((btn) =>
+  btn.addEventListener("click", () => {
+    const view = btn.dataset.view;
+    setActiveView(view);
+  })
+);
 
 async function loadDashboard() {
   setApiStatus("loading", "Henter mock-data …");
@@ -96,6 +104,18 @@ function showError(error) {
 function toggleRefreshButton(disabled) {
   refreshButton.disabled = disabled;
   refreshButton.textContent = disabled ? "Henter ..." : "Oppdater data";
+}
+
+function setActiveView(viewName) {
+  views.forEach((view) => {
+    view.classList.toggle("active", view.dataset.view === viewName);
+  });
+
+  navButtons.forEach((btn) => {
+    const isActive = btn.dataset.view === viewName;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
 }
 
 async function fetchAccountsFromApi() {

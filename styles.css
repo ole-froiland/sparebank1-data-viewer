@@ -41,20 +41,29 @@ body {
 }
 
 .nav-link {
-  padding: 10px 14px;
+  padding: 12px 18px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
   text-decoration: none;
   font-weight: 700;
+  font-size: 16px;
   transition: border 140ms ease, transform 120ms ease, color 140ms ease;
+  cursor: pointer;
 }
 
 .nav-link:hover {
   border-color: rgba(93, 208, 255, 0.5);
   color: var(--accent);
   transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  color: #020613;
+  border-color: transparent;
+  box-shadow: var(--shadow);
 }
 
 .app-header {
@@ -193,6 +202,19 @@ h1 {
 
 .panel-header h2 {
   margin: 0;
+}
+
+.views {
+  position: relative;
+  min-height: 200px;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
 }
 
 .accounts-grid {

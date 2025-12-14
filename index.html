@@ -12,9 +12,9 @@
 <body>
   <div class="app-shell">
     <nav class="main-nav">
-      <a class="nav-link" href="#home">Hjem</a>
-      <a class="nav-link" href="#accounts">Konto</a>
-      <a class="nav-link" href="#transactions">Transaksjoner</a>
+      <button class="nav-link active" type="button" data-view="home">Hjem</button>
+      <button class="nav-link" type="button" data-view="konto">Konto</button>
+      <button class="nav-link" type="button" data-view="transaksjoner">Transaksjoner</button>
     </nav>
     <header class="app-header">
       <div>
@@ -28,39 +28,47 @@
       </div>
     </header>
 
-    <main id="home">
-      <section class="summary-panel">
-        <div>
-          <p class="label">Totalt tilgjengelig</p>
-          <p id="total-balance" class="summary-value">–</p>
-        </div>
-        <div>
-          <p class="label">Antall kontoer</p>
-          <p id="account-count" class="summary-value">–</p>
-        </div>
-        <div>
-          <p class="label">Status</p>
-          <p id="api-status" class="status-pill status-idle">Avventer</p>
-        </div>
-      </section>
+    <main>
+      <div class="views">
+        <section class="view active" data-view="home">
+          <section class="summary-panel">
+            <div>
+              <p class="label">Totalt tilgjengelig</p>
+              <p id="total-balance" class="summary-value">–</p>
+            </div>
+            <div>
+              <p class="label">Antall kontoer</p>
+              <p id="account-count" class="summary-value">–</p>
+            </div>
+            <div>
+              <p class="label">Status</p>
+              <p id="api-status" class="status-pill status-idle">Avventer</p>
+            </div>
+          </section>
+        </section>
 
-      <section id="accounts" class="cards-panel">
-        <div class="panel-header">
-          <h2>Kontoer</h2>
-          <p class="meta-text">Listen hentes via Netlify Function som proxier mot SpareBank 1.</p>
-        </div>
-        <div id="accounts-grid" class="accounts-grid">
-          <!-- Konto-kort rendres her -->
-        </div>
-      </section>
+        <section class="view" data-view="konto">
+          <section id="accounts" class="cards-panel">
+            <div class="panel-header">
+              <h2>Kontoer</h2>
+              <p class="meta-text">Listen hentes via Netlify Function som proxier mot SpareBank 1.</p>
+            </div>
+            <div id="accounts-grid" class="accounts-grid">
+              <!-- Konto-kort rendres her -->
+            </div>
+          </section>
+        </section>
 
-      <section id="transactions" class="cards-panel muted-panel">
-        <div class="panel-header">
-          <h2>Transaksjoner</h2>
-          <p class="meta-text">Kommer snart: hent siste transaksjoner per konto.</p>
-        </div>
-        <p class="meta-text">Velg en konto og trekk transaksjoner fra SpareBank 1 API i neste iterasjon.</p>
-      </section>
+        <section class="view" data-view="transaksjoner">
+          <section id="transactions" class="cards-panel muted-panel">
+            <div class="panel-header">
+              <h2>Transaksjoner</h2>
+              <p class="meta-text">Kommer snart: hent siste transaksjoner per konto.</p>
+            </div>
+            <p class="meta-text">Velg en konto og trekk transaksjoner fra SpareBank 1 API i neste iterasjon.</p>
+          </section>
+        </section>
+      </div>
     </main>
   </div>
 
