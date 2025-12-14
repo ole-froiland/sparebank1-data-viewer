@@ -1,5 +1,3 @@
-import { fetchAccounts } from "./scripts/mockApi.js";
-
 const accountsGrid = document.getElementById("accounts-grid");
 const totalBalanceEl = document.getElementById("total-balance");
 const accountCountEl = document.getElementById("account-count");
@@ -15,10 +13,10 @@ async function loadDashboard() {
   toggleRefreshButton(true);
 
   try {
-    const accounts = await fetchAccounts();
+    const accounts = await fetchAccountsFromApi();
     renderAccounts(accounts);
     updateSummary(accounts);
-    setApiStatus("ok", "Koble til ekte SpareBank 1 API når klar");
+    setApiStatus("ok", "Data fra SpareBank 1 via proxy");
     setLastUpdated();
   } catch (error) {
     console.error(error);
@@ -48,9 +46,12 @@ function renderAccounts(accounts) {
         <p class="account-name">${account.name}</p>
         <span class="pill">${account.type}</span>
       </div>
-      <p class="account-meta">Kontonr: ${account.accountNumber}</p>
+      <p class="account-meta">Kontonr: ${account.accountNumberMasked}</p>
       <p class="account-balance">${formatCurrency(account.balance, account.currency)}</p>
-      <p class="account-meta">Disponibelt: ${formatCurrency(account.available, account.currency)}</p>
+      <p class="account-meta">Disponibelt: ${formatCurrency(
+        account.availableBalance ?? account.available,
+        account.currency
+      )}</p>
     `;
 
     accountsGrid.appendChild(card);
@@ -58,8 +59,8 @@ function renderAccounts(accounts) {
 }
 
 function updateSummary(accounts) {
-  const total = accounts.reduce((sum, account) => sum + account.balance, 0);
-  totalBalanceEl.textContent = formatCurrency(total);
+  const total = accounts.reduce((sum, account) => sum + (account.balance || 0), 0);
+  totalBalanceEl.textContent = formatCurrency(total || 0);
   accountCountEl.textContent = accounts.length;
 }
 
@@ -97,6 +98,17 @@ function toggleRefreshButton(disabled) {
   refreshButton.textContent = disabled ? "Henter ..." : "Oppdater data";
 }
 
+async function fetchAccountsFromApi() {
+  const response = await fetch("/.netlify/functions/accounts");
+  const payload = await response.json();
+
+  if (!response.ok || payload.error) {
+    throw new Error(payload.message || "Kunne ikke hente kontoer");
+  }
+
+  return payload.accounts || [];
+}
+
 function formatCurrency(amount, currency = "NOK") {
   return new Intl.NumberFormat("nb-NO", {
     style: "currency",
@@ -105,5 +117,4 @@ function formatCurrency(amount, currency = "NOK") {
   }).format(amount);
 }
 
-// Når du kobler til ekte API: bytt ut fetchAccounts med et kall som bruker fetch()
-// og autentiseringstoken. Appen vil ellers fungere likt.
+// Frontend lager nå kall til Netlify Function som håndterer token og proxier til SpareBank 1.

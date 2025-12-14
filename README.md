@@ -1,18 +1,31 @@
 # sparebank1-data-viewer
 
-Statisk frontend som viser kontoer og saldo fra SpareBank 1 via mock-data (ingen backend kreves i første versjon).
+Statisk frontend som viser kontoer og saldo fra SpareBank 1 via Netlify Function-proxy (ingen secrets i frontend).
 
 ## Filstruktur
-- `index.html` – enkel dashboard-side.
+- `index.html` – dashboard-side.
 - `styles.css` – layout/tema for dashboardet.
-- `app.js` – UI-logikk som henter data og oppdaterer DOM.
-- `scripts/mockApi.js` – mock-spørring som simulerer SpareBank 1 API.
+- `app.js` – UI-logikk som henter data via Netlify Function.
+- `netlify/functions/accounts.js` – proxy mot SpareBank 1 konto-API.
+- `netlify/functions/_token.js` – tokenhåndtering (cache + refresh).
+- `.env.example` – env-variabler som må settes lokalt/Netlify.
 
-## Kjør lokalt
-1. Åpne en terminal i prosjektmappen.
-2. Start en liten webserver (trengs fordi JavaScript-moduler ikke laster fra `file://`):
+## Miljøvariabler
+Legg inn disse (lokalt i `.env`, i Netlify UI under Site settings → Environment):
+- `CLIENT_ID`
+- `CLIENT_SECRET`
+- `REFRESH_TOKEN`
+
+## Kjør lokalt (Netlify dev)
+1. Installer avhengigheter:
    ```bash
-   python3 -m http.server 8000
+   npm install
    ```
-3. Åpne [http://localhost:8000](http://localhost:8000) i nettleseren.
-4. Klikk «Oppdater data» for å hente mock-data. Bytt ut `fetchAccounts()` i `app.js`/`scripts/mockApi.js` med ekte fetch-kall når autentisering er på plass.
+2. Lag `.env` fra `.env.example` og fyll inn nøklene.
+3. Start utviklingsserver med funksjoner:
+   ```bash
+   npm run dev
+   ```
+4. Åpne URL-en Netlify CLI viser (default http://localhost:8888) og klikk «Oppdater data».
+
+Produksjon: deploy til Netlify (static publish dir `.` + functions `netlify/functions`). All trafikk til `/.netlify/functions/accounts` proxes med access_token/refresh i backend. Ingen tokens sendes til klienten.
