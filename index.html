@@ -60,16 +60,82 @@
         </section>
 
         <section class="view" data-view="transaksjoner">
-          <section id="transactions" class="cards-panel muted-panel">
+          <section id="transactions" class="cards-panel">
             <div class="panel-header">
               <h2>Transaksjoner</h2>
-              <p class="meta-text">Kommer snart: hent siste transaksjoner per konto.</p>
+              <div class="tab-toggle">
+                <button class="pill-button active" data-tab="standard">Standard</button>
+                <button class="pill-button" data-tab="classified">Classified</button>
+              </div>
             </div>
-            <p class="meta-text">Velg en konto og trekk transaksjoner fra SpareBank 1 API i neste iterasjon.</p>
+
+            <form id="transactions-filters" class="filters">
+              <div class="filter-field">
+                <label>Account keys (kommaseparert)</label>
+                <input id="filter-accountKey" type="text" placeholder="QeDJBRXWQaY8BkaSjgXT, ..." />
+              </div>
+              <div class="filter-row">
+                <div class="filter-field">
+                  <label>Fra dato</label>
+                  <input id="filter-fromDate" type="date" />
+                </div>
+                <div class="filter-field">
+                  <label>Til dato</label>
+                  <input id="filter-toDate" type="date" />
+                </div>
+                <div class="filter-field">
+                  <label>Row limit</label>
+                  <input id="filter-rowLimit" type="number" min="1" step="1" placeholder="f.eks. 100" />
+                </div>
+                <div class="filter-field">
+                  <label>Source</label>
+                  <select id="filter-source">
+                    <option value="">(alle)</option>
+                    <option value="RECENT">RECENT</option>
+                    <option value="HISTORIC">HISTORIC</option>
+                    <option value="ALL">ALL</option>
+                  </select>
+                </div>
+              </div>
+              <div class="filter-actions">
+                <button type="submit" class="primary-button small">Oppdater</button>
+                <button type="button" id="export-csv" class="secondary-button">Eksporter CSV</button>
+                <span id="transactions-status" class="meta-text"></span>
+              </div>
+            </form>
+
+            <div class="table-wrapper">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Dato</th>
+                    <th>Beskrivelse</th>
+                    <th>Merchant</th>
+                    <th>Beløp</th>
+                    <th>Valuta</th>
+                    <th>Status</th>
+                    <th>Konto</th>
+                    <th class="classified-col">Kategori</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-body">
+                  <tr><td colspan="8" class="meta-text">Ingen data</td></tr>
+                </tbody>
+              </table>
+            </div>
           </section>
         </section>
       </div>
     </main>
+
+    <div id="transaction-modal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-modal" id="close-modal" aria-label="Lukk detaljer">×</button>
+        <div id="modal-body">
+          <p class="meta-text">Laster …</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="app.js"></script>

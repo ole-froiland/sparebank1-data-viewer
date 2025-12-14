@@ -8,6 +8,8 @@ Statisk frontend som viser kontoer og saldo fra SpareBank 1 via Netlify Function
 - `app.js` – UI-logikk som henter data via Netlify Function.
 - `netlify/functions/accounts.js` – proxy mot SpareBank 1 konto-API.
 - `netlify/functions/_token.js` – tokenhåndtering (cache + refresh).
+- `netlify/functions/transactions*.js` – proxyer for transaksjoner (liste, klassifisert, detaljer, eksport).
+- `scripts/api/transactionsClient.js` – frontend-klient for transaksjonsendepunkter.
 - `.env.example` – env-variabler som må settes lokalt/Netlify.
 
 ## Miljøvariabler
@@ -29,3 +31,7 @@ Legg inn disse (lokalt i `.env`, i Netlify UI under Site settings → Environmen
 4. Åpne URL-en Netlify CLI viser (default http://localhost:8888) og klikk «Oppdater data».
 
 Produksjon: deploy til Netlify (static publish dir `.` + functions `netlify/functions`). All trafikk til `/.netlify/functions/accounts` proxes med access_token/refresh i backend. Ingen tokens sendes til klienten.
+
+## Tester
+- Kjør alle tester: `npm test`
+- Vitest kjører med jsdom for UI-relaterte tester.
