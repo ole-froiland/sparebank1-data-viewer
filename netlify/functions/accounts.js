@@ -1,10 +1,10 @@
-const { getValidAccessToken, forceRefreshAccessToken } = require("./_token");
+import { getAccessToken, forceRefreshAccessToken } from "./_token.js";
 
 const API_BASE = "https://api.sparebank1.no/personal/banking/accounts";
 const ACCEPT_HEADER = "application/vnd.sparebank1.v1+json; charset=utf-8";
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== "GET") {
+export default async (_req, _context) => {
+  if (_req.method !== "GET") {
     return jsonResponse(405, { error: true, message: "Method not allowed" });
   }
 
@@ -20,13 +20,14 @@ exports.handler = async (event) => {
     return jsonResponse(status, {
       error: true,
       message: error.message || "Ukjent feil",
+      code: error.code,
     });
   }
 };
 
 async function fetchAccountsWithRetry() {
   // First attempt with cached/valid token.
-  const primaryToken = await getValidAccessToken();
+  const primaryToken = await getAccessToken();
   const primaryResult = await fetchAccounts(primaryToken);
 
   if (!primaryResult.unauthorized) {
@@ -164,9 +165,8 @@ async function safeJson(response) {
 }
 
 function jsonResponse(statusCode, body) {
-  return {
-    statusCode,
+  return new Response(JSON.stringify(body), {
+    status: statusCode,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  };
+  });
 }

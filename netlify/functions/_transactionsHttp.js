@@ -1,4 +1,4 @@
-const { getValidAccessToken, forceRefreshAccessToken } = require("./_token");
+const { getAccessToken, forceRefreshAccessToken } = require("./_token");
 
 const BASE_URL = "https://api.sparebank1.no/personal/banking/transactions";
 const DEFAULT_TIMEOUT_MS = 10_000;
@@ -52,7 +52,7 @@ async function httpGet({ path, query, accept, expectBinary }) {
 }
 
 async function withAuthRetry(fn) {
-  const primary = await getValidAccessToken();
+  const primary = await getAccessToken();
   try {
     return await fn(primary);
   } catch (err) {

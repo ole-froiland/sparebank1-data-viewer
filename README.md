@@ -18,7 +18,7 @@ Legg inn disse (lokalt i `.env`, i Netlify UI under Site settings → Environmen
 - `SB1_CLIENT_SECRET`
 - `SB1_REFRESH_TOKEN`
 
-Legacy-navnene `CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN` støttes fortsatt som fallback. Tokens roterer og lagres privat i Netlify Blobs (`sb1-oauth/tokens.json`) slik at refresh_token overlever deploys/cold starts.
+Legacy-navnene `CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN` støttes fortsatt som fallback. Tokens caches kun i minnet per runtime – ingen Netlify Blobs brukes lenger. Hvis SpareBank 1 roterer `refresh_token`, oppdater `SB1_REFRESH_TOKEN` manuelt i Netlify.
 
 ## Kjør lokalt (Netlify dev)
 1. Installer avhengigheter:
@@ -31,14 +31,6 @@ Legacy-navnene `CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN` støttes fortsatt s
    npm run dev
    ```
 4. Åpne URL-en Netlify CLI viser (default http://localhost:8888) og klikk «Oppdater data».
-
-Nullstill token-blob ved behov:
-```bash
-# viser lagrede tokens
-netlify blobs:list sb1-oauth
-# slett rotert token (hentes på nytt fra env ved neste kall)
-netlify blobs:delete sb1-oauth tokens.json
-```
 
 Produksjon: deploy til Netlify (static publish dir `.` + functions `netlify/functions`). All trafikk til `/.netlify/functions/accounts` proxes med access_token/refresh i backend. Ingen tokens sendes til klienten.
 

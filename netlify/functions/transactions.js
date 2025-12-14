@@ -1,22 +1,26 @@
-const { httpGet } = require("./_transactionsHttp");
+import { httpGet } from "./_transactionsHttp.js";
 
 const ACCEPT = "application/vnd.sparebank1.v1+json; charset=utf-8";
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== "GET") {
+export default async (req, _context) => {
+  if (req.method !== "GET") {
     return jsonResponse(405, { error: true, message: "Method not allowed" });
   }
+
+  const url = new URL(req.url);
+  const params = url.searchParams;
+  const accountKeyValues = params.getAll("accountKey");
 
   try {
     const data = await httpGet({
       path: "/transactions",
       query: {
-        accountKey: parseArray(event.queryStringParameters?.accountKey),
-        fromDate: event.queryStringParameters?.fromDate,
-        toDate: event.queryStringParameters?.toDate,
-        rowLimit: event.queryStringParameters?.rowLimit,
-        source: event.queryStringParameters?.source,
-        enrichWithPaymentDetails: event.queryStringParameters?.enrichWithPaymentDetails,
+        accountKey: parseArray(accountKeyValues.length ? accountKeyValues : params.get("accountKey")),
+        fromDate: params.get("fromDate"),
+        toDate: params.get("toDate"),
+        rowLimit: params.get("rowLimit"),
+        source: params.get("source"),
+        enrichWithPaymentDetails: params.get("enrichWithPaymentDetails"),
       },
       accept: ACCEPT,
     });
@@ -34,11 +38,10 @@ function parseArray(value) {
 }
 
 function jsonResponse(statusCode, body, extraHeaders = {}) {
-  return {
-    statusCode,
+  return new Response(JSON.stringify(body), {
+    status: statusCode,
     headers: { "Content-Type": "application/json", ...extraHeaders },
-    body: JSON.stringify(body),
-  };
+  });
 }
 
 function handleError(error) {
@@ -47,5 +50,6 @@ function handleError(error) {
     error: true,
     message: error.message || "Ukjent feil",
     status,
+    code: error.code,
   });
 }
