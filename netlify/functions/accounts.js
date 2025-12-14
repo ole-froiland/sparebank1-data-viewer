@@ -1,7 +1,7 @@
 const { getValidAccessToken, forceRefreshAccessToken } = require("./_token");
 
 const API_BASE = "https://api.sparebank1.no/personal/banking/accounts";
-const ACCEPT_HEADER = "application/vnd.sparebank1.v5+json; charset=utf-8";
+const ACCEPT_HEADER = "application/vnd.sparebank1.v1+json; charset=utf-8";
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "GET") {

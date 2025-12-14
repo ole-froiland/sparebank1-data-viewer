@@ -34,8 +34,8 @@ export async function exportTransactionsCsv(params) {
     const text = await response.text();
     throw new Error(text || "Kunne ikke eksportere CSV");
   }
-  const blob = await response.blob();
-  return blob;
+  const buffer = await response.arrayBuffer();
+  return new Blob([buffer], { type: CSV_ACCEPT });
 }
 
 async function getJson(endpoint, params) {
