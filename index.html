@@ -11,11 +11,16 @@
 </head>
 <body>
   <div class="app-shell">
+    <nav class="main-nav">
+      <a class="nav-link" href="#home">Hjem</a>
+      <a class="nav-link" href="#accounts">Konto</a>
+      <a class="nav-link" href="#transactions">Transaksjoner</a>
+    </nav>
     <header class="app-header">
       <div>
-        <p class="eyebrow">Simulert SpareBank 1 API</p>
+        <p class="eyebrow">SpareBank 1 API via proxy</p>
         <h1>Kontodashboard</h1>
-        <p class="lede">Henter kontoer og saldo via mock-data så du kan teste uten backend.</p>
+        <p class="lede">Henter kontoer og saldo via serverless-proxy uten at secrets havner i frontend.</p>
       </div>
       <div class="header-actions">
         <button id="refresh-button" class="primary-button">Oppdater data</button>
@@ -23,7 +28,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="home">
       <section class="summary-panel">
         <div>
           <p class="label">Totalt tilgjengelig</p>
@@ -39,14 +44,22 @@
         </div>
       </section>
 
-      <section class="cards-panel">
+      <section id="accounts" class="cards-panel">
         <div class="panel-header">
           <h2>Kontoer</h2>
-          <p class="meta-text">Listen er hentet fra mock API. Bytt ut koden med ekte kall når du har autentisering.</p>
+          <p class="meta-text">Listen hentes via Netlify Function som proxier mot SpareBank 1.</p>
         </div>
         <div id="accounts-grid" class="accounts-grid">
           <!-- Konto-kort rendres her -->
         </div>
+      </section>
+
+      <section id="transactions" class="cards-panel muted-panel">
+        <div class="panel-header">
+          <h2>Transaksjoner</h2>
+          <p class="meta-text">Kommer snart: hent siste transaksjoner per konto.</p>
+        </div>
+        <p class="meta-text">Velg en konto og trekk transaksjoner fra SpareBank 1 API i neste iterasjon.</p>
       </section>
     </main>
   </div>
