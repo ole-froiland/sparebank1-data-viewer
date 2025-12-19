@@ -126,14 +126,28 @@ h1 {
 }
 
 .summary-panel {
-  background: var(--panel);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 18px;
-  padding: 18px 18px 14px;
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin: 24px 0 16px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.summary-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-panel > div {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 18px 18px 14px;
   box-shadow: var(--shadow);
 }
 

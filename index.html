@@ -31,20 +31,37 @@
     <main>
       <div class="views">
         <section class="view active" data-view="home">
-          <section class="summary-panel">
-            <div>
-              <p class="label">Totalt tilgjengelig</p>
-              <p id="total-balance" class="summary-value">–</p>
-            </div>
-            <div>
-              <p class="label">Antall kontoer</p>
-              <p id="account-count" class="summary-value">–</p>
-            </div>
-            <div>
-              <p class="label">Status</p>
-              <p id="api-status" class="status-pill status-idle">Avventer</p>
-            </div>
-          </section>
+          <div class="summary-stack">
+            <section class="summary-panel summary-panel-duplicate">
+              <div>
+                <p class="label">Totalt tilgjengelig</p>
+                <p class="summary-value js-total-balance">–</p>
+              </div>
+              <div>
+                <p class="label">Antall kontoer</p>
+                <p class="summary-value js-account-count">–</p>
+              </div>
+              <div>
+                <p class="label">Status</p>
+                <p class="status-pill status-idle js-api-status">Avventer</p>
+              </div>
+            </section>
+
+            <section class="summary-panel">
+              <div>
+                <p class="label">Totalt tilgjengelig</p>
+                <p class="summary-value js-total-balance">–</p>
+              </div>
+              <div>
+                <p class="label">Antall kontoer</p>
+                <p class="summary-value js-account-count">–</p>
+              </div>
+              <div>
+                <p class="label">Status</p>
+                <p class="status-pill status-idle js-api-status">Avventer</p>
+              </div>
+            </section>
+          </div>
         </section>
 
         <section class="view" data-view="konto">

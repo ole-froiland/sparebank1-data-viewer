@@ -7,9 +7,9 @@ import {
 } from "./scripts/api/transactionsClient.js";
 
 const accountsGrid = document.getElementById("accounts-grid");
-const totalBalanceEl = document.getElementById("total-balance");
-const accountCountEl = document.getElementById("account-count");
-const apiStatusEl = document.getElementById("api-status");
+const totalBalanceEls = document.querySelectorAll(".js-total-balance");
+const accountCountEls = document.querySelectorAll(".js-account-count");
+const apiStatusEls = document.querySelectorAll(".js-api-status");
 const lastUpdatedEl = document.getElementById("last-updated");
 const refreshButton = document.getElementById("refresh-button");
 const navButtons = document.querySelectorAll(".nav-link");
@@ -124,14 +124,16 @@ function renderAccounts(accounts) {
 
 function updateSummary(accounts) {
   const total = accounts.reduce((sum, account) => sum + (account.balance || 0), 0);
-  totalBalanceEl.textContent = formatCurrency(total || 0);
-  accountCountEl.textContent = accounts.length;
+  setTextAll(totalBalanceEls, formatCurrency(total || 0));
+  setTextAll(accountCountEls, accounts.length);
 }
 
 function setApiStatus(state, text) {
-  apiStatusEl.textContent = text;
-  apiStatusEl.classList.remove("status-idle", "status-loading", "status-ok", "status-error");
-  apiStatusEl.classList.add(`status-${state}`);
+  apiStatusEls.forEach((el) => {
+    el.textContent = text;
+    el.classList.remove("status-idle", "status-loading", "status-ok", "status-error");
+    el.classList.add(`status-${state}`);
+  });
 }
 
 function setLastUpdated() {
@@ -153,8 +155,8 @@ function showError(error) {
       <p class="account-meta">Prøv igjen eller sjekk nettverket.</p>
     </div>
   `;
-  totalBalanceEl.textContent = "–";
-  accountCountEl.textContent = "–";
+  setTextAll(totalBalanceEls, "–");
+  setTextAll(accountCountEls, "–");
 }
 
 function toggleRefreshButton(disabled) {
@@ -388,6 +390,12 @@ async function handleExport() {
     console.error(error);
     setTransactionStatus(`Feil ved eksport: ${error.message || "Ukjent feil"}`);
   }
+}
+
+function setTextAll(elements, value) {
+  elements.forEach((el) => {
+    if (el) el.textContent = value;
+  });
 }
 
 function setTransactionStatus(text) {
