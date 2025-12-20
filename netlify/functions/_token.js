@@ -90,18 +90,18 @@ async function refreshAccessToken({ clientId, clientSecret, refreshToken, force 
     cachedExpiresAt: state.expiresAt || null,
   });
 
-  const params = new URLSearchParams({
+  const body = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: cleanedRefreshToken,
     client_id: clientId,
     client_secret: clientSecret,
-    refresh_token: cleanedRefreshToken,
-    grant_type: "refresh_token",
     redirect_uri: "https://localhost",
   });
 
   const response = await fetch(OAUTH_TOKEN_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params.toString(),
+    body: body.toString(),
   });
 
   const text = await response.text();
