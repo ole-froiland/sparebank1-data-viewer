@@ -4,8 +4,12 @@ const API_BASE = "https://api.sparebank1.no/personal/banking/accounts";
 const ACCEPT_HEADER = "application/vnd.sparebank1.v1+json; charset=utf-8";
 
 export async function handler(event, context) {
-  if (event.method !== "GET") {
-    return jsonResponse(405, { error: true, message: "Method not allowed" });
+  if (event.httpMethod && event.httpMethod !== "GET") {
+    return {
+      statusCode: 405,
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ error: true, message: "Method not allowed" }),
+    };
   }
 
   try {
