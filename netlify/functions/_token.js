@@ -95,6 +95,7 @@ async function refreshAccessToken({ clientId, clientSecret, refreshToken, force 
     client_secret: clientSecret,
     refresh_token: cleanedRefreshToken,
     grant_type: "refresh_token",
+    redirect_uri: "https://localhost",
   });
 
   const response = await fetch(OAUTH_TOKEN_URL, {
