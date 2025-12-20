@@ -165,4 +165,5 @@ async function refreshAccessToken({ clientId, clientSecret, refreshToken, force 
 module.exports = {
   getAccessToken,
   forceRefreshAccessToken,
+  cleanEnv,
 };
