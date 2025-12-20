@@ -3,8 +3,8 @@ import { getAccessToken, forceRefreshAccessToken } from "./_token.js";
 const API_BASE = "https://api.sparebank1.no/personal/banking/accounts";
 const ACCEPT_HEADER = "application/vnd.sparebank1.v1+json; charset=utf-8";
 
-export default async (_req, _context) => {
-  if (_req.method !== "GET") {
+export async function handler(event, context) {
+  if (event.method !== "GET") {
     return jsonResponse(405, { error: true, message: "Method not allowed" });
   }
 
@@ -23,7 +23,7 @@ export default async (_req, _context) => {
       code: error.code,
     });
   }
-};
+}
 
 async function fetchAccountsWithRetry() {
   // First attempt with cached/valid token.
