@@ -57,7 +57,7 @@ function hasValidAccessToken() {
 
 async function getAccessToken(forceRefresh = false) {
   const { clientId, clientSecret, refreshToken } = loadEnv();
-  state.refreshToken = state.refreshToken || refreshToken;
+  state.refreshToken = refreshToken;
 
   if (!forceRefresh && hasValidAccessToken()) {
     return state.accessToken;
@@ -66,7 +66,7 @@ async function getAccessToken(forceRefresh = false) {
   return refreshAccessToken({
     clientId,
     clientSecret,
-    refreshToken: state.refreshToken || refreshToken,
+    refreshToken,
     force: forceRefresh,
   });
 }
